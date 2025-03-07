@@ -1,4 +1,4 @@
-# Symfony Consent Bundle
+# Sylius Static Contexts Bundle
 
 [![Latest Version][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
@@ -6,75 +6,10 @@
 [![Code Coverage][ico-code-coverage]][link-code-coverage]
 [![Mutation testing][ico-infection]][link-infection]
 
-This bundle integrates the [consent contracts](https://github.com/Setono/consent-contracts) into Symfony.
-
 ## Installation
 
 ```shell
-composer require setono/consent-bundle
-```
-
-This installs and enables the plugin automatically if you're using Symfony Flex. If not, add the bundle manually
-to `bundles.php`.
-
-## Configuration
-
-### Consents
-
-The default configuration has all (default) consents (marketing, preferences, and statistics) set to `false`. If you want to
-change these defaults, you can easily do so:
-
-```yaml
-# config/packages/setono_consent.yaml
-
-setono_consent:
-    consents:
-        marketing: true
-        preferences: true
-        statistics: true
-        random_consent: true # you can easily add your own consents
-```
-
-The above configuration will effectively change the default consent to `true` for all permissions.
-
-### Consent checker
-
-If you want to use a different consent checker, you can easily do so by implementing the `ConsentCheckerInterface` and
-setting your own service id as the consent checker:
-
-```yaml
-# config/packages/setono_consent.yaml
-setono_consent:
-    consent_checker: <your service id>
-```
-
-## Usage
-
-The bundle provides a `StaticConsentChecker` that uses the above `consents` array as an input.
-You can then autowire the `ConsentCheckerInterface` and check for a granted consent:
-
-```php
-<?php
-use Setono\Consent\Consents;
-use Setono\Consent\ConsentCheckerInterface;
-
-final class YourMarketingTrackingService
-{
-    private ConsentCheckerInterface $consentChecker;
-    
-    public function __construct(ConsentCheckerInterface $consentChecker) {
-        $this->consentChecker = $consentChecker;
-    }
-    
-    public function track(): void
-    {
-        if(!$this->consentChecker->isGranted(Consents::CONSENT_MARKETING)) {
-            return;
-        }
-        
-        // do your marketing tracking
-    }
-}
+composer require setono/sylius-static-contexts-bundle
 ```
 
 [ico-version]: https://poser.pugx.org/setono/consent-bundle/v/stable
