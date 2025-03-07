@@ -20,6 +20,7 @@
     "require-dev": {
         "infection/infection": "^0.27.11",
         "matthiasnoback/symfony-dependency-injection-test": "^4.3 || ^5.1",
+        "phpspec/prophecy-phpunit": "^2.3",
         "phpunit/phpunit": "^9.6",
         "psalm/plugin-phpunit": "^0.19",
         "psalm/plugin-symfony": "^5.2",
