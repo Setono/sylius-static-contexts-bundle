@@ -1,0 +1,278 @@
+name: "build"
+on:
+    push:
+        branches:
+            - "master"
+        paths-ignore:
+            - "**/*.md"
+    pull_request:
+        paths-ignore:
+            - "**/*.md"
+    workflow_dispatch: ~ 
+
+jobs:
+    coding-standards:
+        name: "Coding Standards"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.1"
+
+                dependencies:
+                    - "highest"
+                
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "${{ matrix.php-version }}"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    coverage: "none"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Validate composer"
+                run: "composer validate --strict"
+
+            -   name: "Check composer normalized"
+                run: "composer normalize --dry-run"
+
+            -   name: "Check style"
+                run: "composer check-style"
+
+    dependency-analysis:
+        name: "Dependency Analysis"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.1"
+                    - "8.2"
+                    - "8.3"
+
+                dependencies:
+                    - "lowest"
+                    - "highest"
+
+                symfony:
+                    - "~5.4.0"
+                    - "~6.4.0"
+                    - "~7.0.0"
+                    - "~7.1.0"
+                    - "~7.2.0"
+
+                exclude:
+                    -   php-version: "8.1"
+                        symfony: "~7.0.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.1.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.2.0"
+        
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    coverage: "none"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    php-version: "${{ matrix.php-version }}"
+                    tools: "flex"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                env:
+                    SYMFONY_REQUIRE: "${{ matrix.symfony }}"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Run dependency analysis"
+                run: "vendor/bin/composer-dependency-analyser"
+
+    static-code-analysis:
+        name: "Static Code Analysis"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.1"
+                    - "8.2"
+                    - "8.3"
+
+                dependencies:
+                    - "lowest"
+                    - "highest"
+
+                symfony:
+                    - "~5.4.0"
+                    - "~6.4.0"
+                    - "~7.0.0"
+                    - "~7.1.0"
+                    - "~7.2.0"
+
+                exclude:
+                    -   php-version: "8.1"
+                        symfony: "~7.0.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.1.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.2.0"
+
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "${{ matrix.php-version }}"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    coverage: "none"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                env:
+                    SYMFONY_REQUIRE: "${{ matrix.symfony }}"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Static analysis"
+                run: "vendor/bin/psalm --php-version=${{ matrix.php-version }}"
+
+    unit-tests:
+        name: "Unit tests"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.1"
+                    - "8.2"
+                    - "8.3"
+
+                dependencies:
+                    - "lowest"
+                    - "highest"
+
+                symfony:
+                    - "~5.4.0"
+                    - "~6.4.0"
+                    - "~7.0.0"
+                    - "~7.1.0"
+                    - "~7.2.0"
+
+                exclude:
+                    -   php-version: "8.1"
+                        symfony: "~7.0.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.1.0"
+                    -   php-version: "8.1"
+                        symfony: "~7.2.0"
+
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    php-version: "${{ matrix.php-version }}"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    coverage: "none"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                env:
+                    SYMFONY_REQUIRE: "${{ matrix.symfony }}"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Run phpunit"
+                run: "composer phpunit"
+
+    code-coverage:
+        name: "Code Coverage"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.3"
+
+                dependencies:
+                    - "highest"
+
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    coverage: "pcov"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    php-version: "${{ matrix.php-version }}"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Collect code coverage with pcov and phpunit/phpunit"
+                run: "vendor/bin/phpunit --coverage-clover=.build/logs/clover.xml"
+
+            -   name: "Send code coverage report to Codecov.io"
+                uses: "codecov/codecov-action@v4"
+                with:
+                    token: "${{ secrets.CODECOV_TOKEN }}"
+
+    mutation-tests:
+        name: "Mutation tests"
+
+        runs-on: "ubuntu-latest"
+
+        strategy:
+            matrix:
+                php-version:
+                    - "8.3"
+
+                dependencies:
+                    - "highest"
+
+        steps:
+            -   name: "Checkout"
+                uses: "actions/checkout@v4"
+
+            -   name: "Setup PHP, with composer and extensions"
+                uses: "shivammathur/setup-php@v2"
+                with:
+                    coverage: "pcov"
+                    extensions: "${{ env.PHP_EXTENSIONS }}"
+                    php-version: "${{ matrix.php-version }}"
+
+            -   name: "Install composer dependencies"
+                uses: "ramsey/composer-install@v3"
+                with:
+                    dependency-versions: "${{ matrix.dependencies }}"
+
+            -   name: "Run infection"
+                run: "vendor/bin/infection"
+                env:
+                    STRYKER_DASHBOARD_API_KEY: "${{ secrets.STRYKER_DASHBOARD_API_KEY }}"

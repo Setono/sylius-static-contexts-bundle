@@ -1,0 +1,54 @@
+{
+    "name": "setono/sylius-static-contexts-bundle",
+    "description": "A Symfony bundle that gives you static contexts",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Joachim Løvgaard",
+            "email": "joachim@loevgaard.dk"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "sylius/channel": "^1.0 || ^2.0",
+        "sylius/locale": "^1.0 || ^2.0",
+        "symfony/config": "^5.4 || ^6.4 || ^7.0",
+        "symfony/dependency-injection": "^5.4 || ^6.4 || ^7.0",
+        "symfony/http-kernel": "^5.4 || ^6.4 || ^7.0"
+    },
+    "require-dev": {
+        "infection/infection": "^0.27.11",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.3 || ^5.1",
+        "phpunit/phpunit": "^9.6",
+        "psalm/plugin-phpunit": "^0.19",
+        "psalm/plugin-symfony": "^5.2",
+        "setono/code-quality-pack": "^2.9",
+        "shipmonk/composer-dependency-analyser": "^1.8.2"
+    },
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Setono\\SyliusStaticContextsBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Setono\\SyliusStaticContextsBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "analyse": "psalm",
+        "check-style": "ecs check",
+        "fix-style": "ecs check --fix",
+        "phpunit": "phpunit"
+    }
+}
