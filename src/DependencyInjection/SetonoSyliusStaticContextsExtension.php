@@ -13,7 +13,6 @@ final class SetonoSyliusStaticContextsExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
-        $loader->load('services.xml');
+        (new XmlFileLoader($container, new FileLocator(__DIR__ . '/../../config')))->load('services.xml');
     }
 }
