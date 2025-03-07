@@ -8,8 +8,9 @@ use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-final class StaticChannelContext implements ChannelContextInterface
+final class StaticChannelContext implements ChannelContextInterface, ResetInterface
 {
     private ?ChannelInterface $channel = null;
 
@@ -42,5 +43,10 @@ final class StaticChannelContext implements ChannelContextInterface
         }
 
         $this->channel = $channel;
+    }
+
+    public function reset(): void
+    {
+        $this->channel = null;
     }
 }

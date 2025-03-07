@@ -6,8 +6,9 @@ namespace Setono\SyliusStaticContextsBundle\Context;
 
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Locale\Context\LocaleNotFoundException;
+use Symfony\Contracts\Service\ResetInterface;
 
-final class StaticLocaleContext implements LocaleContextInterface
+final class StaticLocaleContext implements LocaleContextInterface, ResetInterface
 {
     private ?string $localeCode = null;
 
@@ -19,5 +20,10 @@ final class StaticLocaleContext implements LocaleContextInterface
     public function setLocaleCode(?string $localeCode): void
     {
         $this->localeCode = $localeCode;
+    }
+
+    public function reset(): void
+    {
+        $this->localeCode = null;
     }
 }

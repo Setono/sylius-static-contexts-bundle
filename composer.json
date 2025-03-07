@@ -15,7 +15,8 @@
         "sylius/locale": "^1.0",
         "symfony/config": "^5.4 || ^6.4",
         "symfony/dependency-injection": "^5.4 || ^6.4",
-        "symfony/http-kernel": "^5.4 || ^6.4"
+        "symfony/http-kernel": "^5.4 || ^6.4",
+        "symfony/service-contracts": "^1.1 || ^2.0 || ^3.0"
     },
     "require-dev": {
         "infection/infection": "^0.27.11",
