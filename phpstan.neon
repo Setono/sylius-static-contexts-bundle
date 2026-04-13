@@ -1,0 +1,16 @@
+parameters:
+    level: 9
+    paths:
+        - src
+        - tests
+    phpVersion: 80200
+    ignoreErrors:
+        - identifier: missingType.generics
+          path: tests/
+
+includes:
+    - vendor/jangregor/phpstan-prophecy/extension.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon

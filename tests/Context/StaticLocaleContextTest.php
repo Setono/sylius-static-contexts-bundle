@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusStaticContextsBundle\Tests\Context;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Setono\SyliusStaticContextsBundle\Context\StaticLocaleContext;
@@ -13,9 +14,7 @@ final class StaticLocaleContextTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_locale_code_throws_exception_when_locale_is_not_set(): void
     {
         $context = new StaticLocaleContext();
@@ -26,9 +25,7 @@ final class StaticLocaleContextTest extends TestCase
         $context->getLocaleCode();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function set_locale_code_and_get_locale_code(): void
     {
         $localeCode = 'en_US';
@@ -36,6 +33,6 @@ final class StaticLocaleContextTest extends TestCase
         $context = new StaticLocaleContext();
         $context->setLocaleCode($localeCode);
 
-        $this->assertSame($localeCode, $context->getLocaleCode());
+        self::assertSame($localeCode, $context->getLocaleCode());
     }
 }

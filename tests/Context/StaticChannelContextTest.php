@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusStaticContextsBundle\Tests\Context;
 
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -27,9 +28,7 @@ final class StaticChannelContextTest extends TestCase
         $this->context = new StaticChannelContext($this->channelRepository->reveal());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function get_channel_throws_exception_when_channel_is_not_set(): void
     {
         $this->expectException(ChannelNotFoundException::class);
@@ -38,21 +37,17 @@ final class StaticChannelContextTest extends TestCase
         $this->context->getChannel();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function set_channel_and_get_channel(): void
     {
         $channel = $this->prophesize(ChannelInterface::class)->reveal();
 
         $this->context->setChannel($channel);
 
-        $this->assertSame($channel, $this->context->getChannel());
+        self::assertSame($channel, $this->context->getChannel());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function set_channel_code_throws_exception_if_channel_does_not_exist(): void
     {
         $this->channelRepository->findOneByCode('non_existing_code')->willReturn(null);
@@ -63,9 +58,7 @@ final class StaticChannelContextTest extends TestCase
         $this->context->setChannelCode('non_existing_code');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function set_channel_code_successfully_sets_channel(): void
     {
         $channel = $this->prophesize(ChannelInterface::class)->reveal();
@@ -74,6 +67,6 @@ final class StaticChannelContextTest extends TestCase
 
         $this->context->setChannelCode('existing_code');
 
-        $this->assertSame($channel, $this->context->getChannel());
+        self::assertSame($channel, $this->context->getChannel());
     }
 }

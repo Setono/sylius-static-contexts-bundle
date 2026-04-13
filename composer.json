@@ -10,23 +10,24 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
-        "sylius/channel": "^1.0",
-        "sylius/locale": "^1.0",
-        "symfony/config": "^5.4 || ^6.4",
-        "symfony/dependency-injection": "^5.4 || ^6.4",
-        "symfony/http-kernel": "^5.4 || ^6.4",
-        "symfony/service-contracts": "^1.1 || ^2.0 || ^3.0"
+        "php": ">=8.2",
+        "sylius/channel": "^2.0",
+        "sylius/locale": "^2.0",
+        "symfony/config": "^6.4 || ^7.4",
+        "symfony/dependency-injection": "^6.4 || ^7.4",
+        "symfony/http-kernel": "^6.4 || ^7.4",
+        "symfony/service-contracts": "^3.0"
     },
     "require-dev": {
-        "infection/infection": "^0.27.11",
-        "matthiasnoback/symfony-dependency-injection-test": "^4.3 || ^5.1",
-        "phpspec/prophecy-phpunit": "^2.3",
-        "phpunit/phpunit": "^9.6",
-        "psalm/plugin-phpunit": "^0.19",
-        "psalm/plugin-symfony": "^5.2",
-        "setono/code-quality-pack": "^2.9",
-        "shipmonk/composer-dependency-analyser": "^1.8.2"
+        "jangregor/phpstan-prophecy": "^2.3",
+        "matthiasnoback/symfony-dependency-injection-test": "^6.3",
+        "phpspec/prophecy-phpunit": "^2.5",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^11.0",
+        "setono/code-quality-pack": "^3.1",
+        "shipmonk/composer-dependency-analyser": "^1.8"
     },
     "prefer-stable": true,
     "autoload": {
@@ -48,7 +49,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "analyse": "psalm",
+        "analyse": "phpstan analyse",
         "check-style": "ecs check",
         "fix-style": "ecs check --fix",
         "phpunit": "phpunit"

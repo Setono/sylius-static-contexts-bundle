@@ -2,13 +2,13 @@ name: "build"
 on:
     push:
         branches:
-            - "master"
+            - "2.x"
         paths-ignore:
             - "**/*.md"
     pull_request:
         paths-ignore:
             - "**/*.md"
-    workflow_dispatch: ~ 
+    workflow_dispatch: ~
 
 jobs:
     coding-standards:
@@ -19,11 +19,11 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
+                    - "8.2"
 
                 dependencies:
                     - "highest"
-                
+
         steps:
             -   name: "Checkout"
                 uses: "actions/checkout@v4"
@@ -57,17 +57,17 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
                     - "8.3"
+                    - "8.4"
 
                 dependencies:
                     - "lowest"
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
+                    - "~7.4.0"
 
         steps:
             -   name: "Checkout"
@@ -99,17 +99,17 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
                     - "8.3"
+                    - "8.4"
 
                 dependencies:
                     - "lowest"
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
+                    - "~7.4.0"
 
         steps:
             -   name: "Checkout"
@@ -130,7 +130,7 @@ jobs:
                     dependency-versions: "${{ matrix.dependencies }}"
 
             -   name: "Static analysis"
-                run: "vendor/bin/psalm --php-version=${{ matrix.php-version }}"
+                run: "vendor/bin/phpstan analyse"
 
     unit-tests:
         name: "Unit tests"
@@ -140,17 +140,17 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.1"
                     - "8.2"
                     - "8.3"
+                    - "8.4"
 
                 dependencies:
                     - "lowest"
                     - "highest"
 
                 symfony:
-                    - "~5.4.0"
                     - "~6.4.0"
+                    - "~7.4.0"
 
         steps:
             -   name: "Checkout"
@@ -181,7 +181,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.3"
+                    - "8.4"
 
                 dependencies:
                     - "highest"
@@ -218,7 +218,7 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - "8.3"
+                    - "8.4"
 
                 dependencies:
                     - "highest"
