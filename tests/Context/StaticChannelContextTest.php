@@ -69,4 +69,28 @@ final class StaticChannelContextTest extends TestCase
 
         self::assertSame($channel, $this->context->getChannel());
     }
+
+    #[Test]
+    public function set_channel_to_null_unsets_channel(): void
+    {
+        $channel = $this->prophesize(ChannelInterface::class)->reveal();
+        $this->context->setChannel($channel);
+
+        $this->context->setChannel(null);
+
+        $this->expectException(ChannelNotFoundException::class);
+        $this->context->getChannel();
+    }
+
+    #[Test]
+    public function reset_clears_channel(): void
+    {
+        $channel = $this->prophesize(ChannelInterface::class)->reveal();
+        $this->context->setChannel($channel);
+
+        $this->context->reset();
+
+        $this->expectException(ChannelNotFoundException::class);
+        $this->context->getChannel();
+    }
 }

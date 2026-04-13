@@ -35,4 +35,28 @@ final class StaticLocaleContextTest extends TestCase
 
         self::assertSame($localeCode, $context->getLocaleCode());
     }
+
+    #[Test]
+    public function set_locale_code_to_null_unsets_locale(): void
+    {
+        $context = new StaticLocaleContext();
+        $context->setLocaleCode('en_US');
+
+        $context->setLocaleCode(null);
+
+        $this->expectException(LocaleNotFoundException::class);
+        $context->getLocaleCode();
+    }
+
+    #[Test]
+    public function reset_clears_locale_code(): void
+    {
+        $context = new StaticLocaleContext();
+        $context->setLocaleCode('en_US');
+
+        $context->reset();
+
+        $this->expectException(LocaleNotFoundException::class);
+        $context->getLocaleCode();
+    }
 }
